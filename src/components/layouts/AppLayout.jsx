@@ -25,7 +25,7 @@ import ProjectsSection from "../sections/ProjectsSection";
 import ResumeSection, { ResumeModal } from "../sections/ResumeSection";
 import ContactSection from "../sections/ContactSection";
 import { MiniHudNav, SectionWrapper } from "./LayoutHelpers";
-import useKeyboardShortcuts from "../shortcuts/UseKeyboardShortcuts";
+import useKeyboardShortcuts from "../shortcuts/useKeyboardShortcuts";
 import {
   EasterEggOverlay,
   OnboardingOverlay,
