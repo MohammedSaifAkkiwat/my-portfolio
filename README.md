@@ -1,16 +1,58 @@
-# React + Vite
+# 🚀 Mohammed Saif — Interactive Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to my personal portfolio — a modern, interactive web experience built to showcase my projects, skills, and experimentation across **AI, web engineering, and creative UX**.
 
-Currently, two official plugins are available:
+This portfolio isn’t just a static site — it’s a playground of ideas, animations, and intelligent interactions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🌐 **Live Site:** _(coming soon — deploying on Vercel)_
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Highlights
 
-## Expanding the ESLint configuration
+- ⚡ **Fully Interactive UI** — smooth animations, keyboard shortcuts, parallax effects
+- 🤖 **Saif Companion (AI Assistant)** — an in-site chatbot that answers questions about my work
+- 🎮 **Easter Eggs & Hidden Interactions** — discoverable features for curious visitors
+- 🧠 **AI & Systems Focus** — projects and experiments around ML, LLMs, and intelligent systems
+- 🎨 **Custom Design System** — dark, space-inspired theme with sound & motion
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🤖 Saif Companion
+
+Saif Companion is an embedded AI assistant designed to:
+- Answer questions about my **projects, skills, and experience**
+- Guide recruiters through the portfolio
+- Provide a conversational way to explore my work
+
+> 🚧 Currently uses a lightweight backend  
+> 🔜 Planned upgrade: resume-grounded LLM with richer context & memory
+
+---
+
+## 🧩 Tech Stack
+
+**Frontend**
+- React + Vite
+- Tailwind CSS
+- Custom animation & interaction layers
+
+**Backend**
+- Serverless API (Vercel Functions)
+- AI endpoint integration (WIP)
+
+**Tooling**
+- Git & GitHub
+- ESLint + modern JS tooling
+
+---
+
+## 📁 Project Structure
+
+```text
+src/
+ ├─ components/        # UI building blocks & interactions
+ ├─ sections/          # Page sections (Hero, Projects, Skills, etc.)
+ ├─ contexts/          # Theme, sound, and background state
+ ├─ overlays/          # System UI & Saif Companion
+ └─ main.jsx           # App entry point
