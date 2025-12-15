@@ -32,7 +32,7 @@ export function EasterEggOverlay({ open, onClose }) {
       try {
         sessionStorage.setItem("devMode", "true");
         setDevUnlocked(true);
-      } catch {}
+      } catch { }
     }
   }, [open]);
 
@@ -259,8 +259,8 @@ export function EasterEggOverlay({ open, onClose }) {
                   background: isSnake
                     ? "#60A5FA"
                     : isFood
-                    ? "#A78BFA"
-                    : "rgba(255,255,255,0.05)",
+                      ? "#A78BFA"
+                      : "rgba(255,255,255,0.05)",
                 }}
               />
             );
@@ -347,6 +347,14 @@ export function EasterEggOverlay({ open, onClose }) {
 }
 
 export function OnboardingOverlay({ onClose }) {
+  const isTouch =
+    typeof window !== "undefined" &&
+    (window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(hover: none)").matches);
+
+  // ❌ Never show onboarding on mobile / tablet
+  if (isTouch) return null;
+
   return (
     <div
       onClick={onClose}
@@ -377,9 +385,12 @@ export function OnboardingOverlay({ onClose }) {
           boxShadow: "0 12px 40px rgba(2,6,23,0.6)",
         }}
       >
-        <div style={{ fontFamily: "'Courier New', monospace", color: "#9CA3AF" }}>Shortcuts</div>
+        <div style={{ fontFamily: "'Courier New', monospace", color: "#9CA3AF" }}>
+          Shortcuts
+        </div>
         <div style={{ flex: 1, fontSize: 14 }}>
-          Press <strong>?</strong> for keyboard help · Press <strong>T</strong> to toggle Hyperdrive (night) · Arrow keys jump sections.
+          Press <strong>?</strong> for keyboard help · Press{" "}
+          <strong>T</strong> to toggle Hyperdrive · Arrow keys jump sections.
         </div>
         <button
           onClick={onClose}
@@ -402,40 +413,41 @@ export function OnboardingOverlay({ onClose }) {
 export function AudioControls() {
   const sound = useSound() || {};
   const { muted = false, setMuted = () => { } } = sound;
-  const toggleMute = () => setMuted((m) => !m);
 
   return (
-    <div
+    <button
+      onClick={() => setMuted((m) => !m)}
+      aria-label="Toggle sound"
       style={{
         position: "fixed",
-        left: "1.5rem",
+        left: "1.25rem",
         bottom: "4.8rem",
         zIndex: 56,
+
+        width: 42,
+        height: 42,
+        borderRadius: "999px",
+
+        border: "1px solid rgba(148,163,184,0.2)",
+        background: "rgba(15,23,42,0.85)",
+        color: "#E5E7EB",
+
         display: "flex",
-        gap: 8,
         alignItems: "center",
-        pointerEvents: "auto",
+        justifyContent: "center",
+
+        fontSize: 18,
+        cursor: "pointer",
+
+        boxShadow: "0 8px 24px rgba(2,6,23,0.6)",
+        backdropFilter: "blur(8px)",
+
+        WebkitTapHighlightColor: "transparent",
+        touchAction: "manipulation",
       }}
     >
-      <button
-        onClick={toggleMute}
-        title="Toggle site audio"
-        style={{
-          padding: "0.65rem 1rem",
-          borderRadius: 999,
-          border: "1px solid rgba(148,163,184,0.18)",
-          background: muted ? "rgba(203,213,225,0.08)" : "linear-gradient(135deg,#60a5fa,#a78bfa)",
-          color: muted ? "#9CA3AF" : "#020617",
-          cursor: "pointer",
-          fontFamily: "'Inter',sans-serif",
-          fontSize: 14,
-          fontWeight: 700,
-          boxShadow: muted ? "none" : "0 8px 30px rgba(96,165,250,0.18)",
-        }}
-      >
-        {muted ? "Muted" : "Sound"}
-      </button>
-    </div>
+      {muted ? "🔇" : "🔊"}
+    </button>
   );
 }
 
@@ -454,11 +466,11 @@ export function SaifCompanion() {
       return raw
         ? JSON.parse(raw)
         : [
-            {
-              from: "bot",
-              text: "Hi! I'm Saif Companion. Ask me about projects, skills or interview prep.",
-            },
-          ];
+          {
+            from: "bot",
+            text: "Hi! I'm Saif Companion. Ask me about projects, skills or interview prep.",
+          },
+        ];
     } catch {
       return [
         {
@@ -493,13 +505,13 @@ export function SaifCompanion() {
   useEffect(() => {
     try {
       localStorage.setItem("saifCompanionMessages", JSON.stringify(messages));
-    } catch {}
+    } catch { }
   }, [messages]);
 
   useEffect(() => {
     try {
       localStorage.setItem("saifCompanionOpen", open ? "true" : "false");
-    } catch {}
+    } catch { }
   }, [open]);
 
   const send = async (txt) => {
@@ -700,16 +712,18 @@ export function SaifCompanion() {
       <button
         onClick={() => setOpen((o) => !o)}
         style={{
-          width: 56,
-          height: 56,
+          width: 44,
+          height: 44,
           borderRadius: 999,
           border: "none",
           background: "linear-gradient(135deg,#60a5fa,#a78bfa)",
-          fontSize: 20,
+          fontSize: 18,
+          cursor: "pointer",
         }}
       >
         🤖
       </button>
+
     </div>
   );
 }
