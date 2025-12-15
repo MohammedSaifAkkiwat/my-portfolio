@@ -124,7 +124,7 @@ export default function HeroSection({ scrollToContact, handleContactClick }) {
           userSelect: "none",
         }}
       >
-        ↑ ↑ ↓ ↓ B A
+        unlock SaifCLI: ↑ ↑ ↓ ↓ B A
       </div>
 
 
