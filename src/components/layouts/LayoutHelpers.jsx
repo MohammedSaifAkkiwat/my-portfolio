@@ -2,6 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 function MiniHudNav({ activeSection, onNavClick }) {
+  // ❌ HARD STOP: never render on mobile / tablet / touch devices
+  if (
+    typeof window !== "undefined" &&
+    (window.matchMedia("(pointer: coarse)").matches ||
+      window.matchMedia("(hover: none)").matches)
+  ) {
+    return null;
+  }
+
   const items = [
     { id: "hero", label: "Hero" },
     { id: "skills", label: "Skills" },
@@ -40,6 +49,7 @@ function MiniHudNav({ activeSection, onNavClick }) {
       {items.map((item) => {
         const active = activeSection === item.id;
         const justActivated = prevActiveRef.current !== item.id && active;
+
         return (
           <motion.button
             key={item.id}
@@ -49,13 +59,13 @@ function MiniHudNav({ activeSection, onNavClick }) {
             animate={
               justActivated
                 ? {
-                  scale: [1, 1.16, 1],
-                  boxShadow: [
-                    "0 0 0 rgba(0,0,0,0)",
-                    "0 10px 30px rgba(96,165,250,0.14)",
-                    "0 0 0 rgba(0,0,0,0)",
-                  ],
-                }
+                    scale: [1, 1.16, 1],
+                    boxShadow: [
+                      "0 0 0 rgba(0,0,0,0)",
+                      "0 10px 30px rgba(96,165,250,0.14)",
+                      "0 0 0 rgba(0,0,0,0)",
+                    ],
+                  }
                 : {}
             }
             transition={{ duration: 0.6, ease: "easeOut" }}
@@ -78,7 +88,9 @@ function MiniHudNav({ activeSection, onNavClick }) {
                 ? "linear-gradient(135deg, #e5e7eb, #f9fafb)"
                 : "rgba(15,23,42,0.6)",
               transition: "all 0.16s ease",
-              boxShadow: active ? "0 6px 18px rgba(96,165,250,0.18)" : "none",
+              boxShadow: active
+                ? "0 6px 18px rgba(96,165,250,0.18)"
+                : "none",
             }}
           >
             <span style={{ display: "block", textAlign: "center", width: "100%" }}>
@@ -90,6 +102,7 @@ function MiniHudNav({ activeSection, onNavClick }) {
     </nav>
   );
 }
+
 
 function SectionWrapper({ id, focusMode, activeSection, children }) {
   const dim = focusMode && activeSection !== id;

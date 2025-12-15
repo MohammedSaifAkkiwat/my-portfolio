@@ -15,13 +15,21 @@ export default function useKeyboardShortcuts({
   const konamiBuffer = useRef([]);
 
   useEffect(() => {
+    // ✅ HARD STOP: disable shortcuts on touch/mobile devices
+    const isTouchDevice =
+      typeof window !== "undefined" &&
+      (window.matchMedia("(pointer: coarse)").matches ||
+        window.matchMedia("(hover: none)").matches);
+
+    if (isTouchDevice) return;
+
     const handler = (e) => {
       const tag = e.target.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA") return;
 
       const key = e.key.toLowerCase();
 
-      /* ---------------- Konami (shortened) ---------------- */
+      /* ---------------- Konami ---------------- */
       konamiBuffer.current.push(key);
       if (konamiBuffer.current.length > 6) konamiBuffer.current.shift();
 
@@ -60,24 +68,58 @@ export default function useKeyboardShortcuts({
         case "?":
           setShowShortcuts((s) => !s);
           break;
+
+        case "h":
+          document.getElementById("hero")?.scrollIntoView({ behavior: "smooth" });
+          break;
+
+        case "s":
+          document
+            .getElementById("skills")
+            ?.scrollIntoView({ behavior: "smooth" });
+          break;
+
+        case "p":
+          document
+            .getElementById("projects")
+            ?.scrollIntoView({ behavior: "smooth" });
+          break;
+
+        case "r":
+          document
+            .getElementById("resume")
+            ?.scrollIntoView({ behavior: "smooth" });
+          break;
+
+        case "c":
+          document
+            .getElementById("contact")
+            ?.scrollIntoView({ behavior: "smooth" });
+          break;
+
         case "escape":
           setShowShortcuts(false);
           setFocusMode(false);
           setShowResume(false);
           setShowEasterEgg(false);
           break;
+
         case "b":
           cycleBackground();
           break;
+
         case "f":
           setFocusMode((f) => !f);
           break;
+
         case "t":
           setHyperdrive((h) => !h);
           break;
+
         case "m":
           setMuted && setMuted((m) => !m);
           break;
+
         default:
           break;
       }

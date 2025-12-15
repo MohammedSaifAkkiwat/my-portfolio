@@ -231,10 +231,12 @@ function ProjectsSection({ projects }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
+          gridTemplateColumns:
+            "repeat(auto-fit, minmax(min(260px, 100%), 1fr))",
           gap: "1.4rem",
         }}
       >
+
         {extendedProjects.map((p, i) => (
           <ProjectCard key={p.title} project={p} index={i} />
         ))}

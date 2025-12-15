@@ -1,6 +1,6 @@
 // applayout.jsx — FULL FIXED VERSION (NO BLANK SCREEN)
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 /* ===== CONTEXTS ===== */
 import { useTheme } from "../../contexts/ThemeContext";
@@ -17,23 +17,24 @@ import {
   ShortcutsHintPill,
 } from "../shortcuts/ShortcutsUI";
 
-/* ===== IMPORT SECTIONS & UTILITIES FROM App.jsx ===== */
-
+/* ===== SECTIONS ===== */
 import HeroSection from "../sections/HeroSection";
 import SkillsSection from "../sections/SkillsSection";
 import ProjectsSection from "../sections/ProjectsSection";
 import ResumeSection, { ResumeModal } from "../sections/ResumeSection";
 import ContactSection from "../sections/ContactSection";
+
+/* ===== LAYOUT / UTIL ===== */
 import { MiniHudNav, SectionWrapper } from "./LayoutHelpers";
 import useKeyboardShortcuts from "../shortcuts/useKeyboardShortcuts";
+
+/* ===== OVERLAYS ===== */
 import {
   EasterEggOverlay,
   OnboardingOverlay,
   AudioControls,
   SaifCompanion,
 } from "../overlays/SystemOverlays";
-
-
 
 /* ==================== APP LAYOUT ==================== */
 
@@ -49,7 +50,7 @@ function AppLayout({
   const { isLowPower, prefersReducedMotion } = theme;
 
   const sound = useSound() || {};
-  const { playChime, playClick, setMuted } = sound;
+  const { playChime, setMuted } = sound;
 
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [focusMode, setFocusMode] = useState(false);
@@ -64,6 +65,11 @@ function AppLayout({
       return true;
     }
   });
+
+  /* ===== MOBILE DETECTION (FIX) ===== */
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia("(max-width: 768px)").matches;
 
   /* ===== Hyperdrive body class ===== */
   useEffect(() => {
@@ -117,9 +123,12 @@ function AppLayout({
     playChime,
   });
 
-
+  /* ===== Cursor (DISABLED ON MOBILE) ===== */
   const shouldShowCursor =
-    !isLowPower && !prefersReducedMotion && typeof window !== "undefined";
+    !isLowPower &&
+    !prefersReducedMotion &&
+    typeof window !== "undefined" &&
+    !isMobile;
 
   const snapshotText = projects
     .map(
@@ -133,12 +142,22 @@ function AppLayout({
   return (
     <>
       <ScrollProgressBar />
-      <MiniHudNav activeSection={activeSection} onNavClick={(id) =>
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
-      } />
 
-      <ShortcutsHintPill />
-      <ShortcutsOverlay open={showShortcuts} onClose={() => setShowShortcuts(false)} />
+      <MiniHudNav
+        activeSection={activeSection}
+        onNavClick={(id) =>
+          document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+        }
+      />
+
+      {/* ===== SHORTCUT UI (DESKTOP ONLY) ===== */}
+      {!isMobile && <ShortcutsHintPill />}
+      {!isMobile && (
+        <ShortcutsOverlay
+          open={showShortcuts}
+          onClose={() => setShowShortcuts(false)}
+        />
+      )}
 
       {shouldShowCursor && <CursorFollower />}
       {shouldShowCursor && <CursorParticles enabled />}
@@ -150,26 +169,48 @@ function AppLayout({
         snapshotText={snapshotText}
       />
 
-      <EasterEggOverlay open={showEasterEgg} onClose={() => setShowEasterEgg(false)} />
-      {showOnboarding && <OnboardingOverlay onClose={() => setShowOnboarding(false)} />}
+      <EasterEggOverlay
+        open={showEasterEgg}
+        onClose={() => setShowEasterEgg(false)}
+      />
+
+      {showOnboarding && (
+        <OnboardingOverlay onClose={() => setShowOnboarding(false)} />
+      )}
 
       <div id="top">
-        <SectionWrapper id="hero" focusMode={focusMode} activeSection={activeSection}>
+        <SectionWrapper
+          id="hero"
+          focusMode={focusMode}
+          activeSection={activeSection}
+        >
           <HeroSection
             scrollToContact={scrollToContact}
             handleContactClick={handleContactClick}
           />
         </SectionWrapper>
 
-        <SectionWrapper id="skills" focusMode={focusMode} activeSection={activeSection}>
+        <SectionWrapper
+          id="skills"
+          focusMode={focusMode}
+          activeSection={activeSection}
+        >
           <SkillsSection skills={skills} />
         </SectionWrapper>
 
-        <SectionWrapper id="projects" focusMode={focusMode} activeSection={activeSection}>
+        <SectionWrapper
+          id="projects"
+          focusMode={focusMode}
+          activeSection={activeSection}
+        >
           <ProjectsSection projects={projects} />
         </SectionWrapper>
 
-        <SectionWrapper id="resume" focusMode={focusMode} activeSection={activeSection}>
+        <SectionWrapper
+          id="resume"
+          focusMode={focusMode}
+          activeSection={activeSection}
+        >
           <ResumeSection
             onViewResume={() => setShowResume(true)}
             resumeUrl={resumeUrl}
@@ -177,7 +218,11 @@ function AppLayout({
           />
         </SectionWrapper>
 
-        <SectionWrapper id="contact" focusMode={focusMode} activeSection={activeSection}>
+        <SectionWrapper
+          id="contact"
+          focusMode={focusMode}
+          activeSection={activeSection}
+        >
           <ContactSection handleContactClick={handleContactClick} />
         </SectionWrapper>
       </div>

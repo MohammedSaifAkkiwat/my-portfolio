@@ -132,7 +132,14 @@ function ResumeSection({ onViewResume, resumeUrl, projects }) {
   const resetTilt = () => setTilt({ x: 0, y: 0 });
 
   return (
-    <section id="resume" style={{ padding: "4rem 2rem 2rem" }}>
+    <section
+      id="resume"
+      style={{
+        padding: "4rem 2rem 2rem",
+        position: "relative",
+        zIndex: 5,
+      }}
+    >
       <div style={{ maxWidth: "900px", margin: "0 auto" }}>
         <div
           style={{ perspective: "1500px" }}
